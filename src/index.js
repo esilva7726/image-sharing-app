@@ -17,7 +17,7 @@ app.set('view engine', 'ejs');
 app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: false }));
 const storage = multer.diskStorage({
-  destination: path.join(__dirname, 'public/img/upload'),
+  destination: path.join(__dirname, 'public/img/uploads'),
   filename: (req, file, cb, filename) => {
     const extName = path.extname(file.originalname);
     cb(null, uuidv4() + extName);
@@ -31,6 +31,7 @@ app.use(multer({ storage }).single('image'));
 app.use(require('./routes/index'));
 
 // Static files
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Start the server
 app.listen(app.get('port'), () => {
