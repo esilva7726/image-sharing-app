@@ -3,6 +3,7 @@ const path = require('path');
 const morgan = require('morgan');
 const multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
+const { format } = require('timeago.js');
 
 // Initializations
 const app = express();
@@ -26,6 +27,10 @@ const storage = multer.diskStorage({
 app.use(multer({ storage }).single('image'));
 
 // Global variables
+app.use((req, res, next) => {
+  app.locals.format = format;
+  next();
+})
 
 // Routes
 app.use(require('./routes/index'));
